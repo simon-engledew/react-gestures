@@ -1,10 +1,10 @@
 {
   "name": "react-gestures",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React gesture recognizers",
   "main": "index.js",
   "scripts": {
-    "postinstall": "./node_modules/.bin/babel  src --out-dir lib"
+    "prepublish": "./node_modules/.bin/babel  src --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/bh5-js/react-gestures",
   "devDependencies": {
-    "babel": "^4.7.16"
+    "babel": "*"
   }
 }
