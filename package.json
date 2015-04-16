@@ -4,7 +4,7 @@
   "description": "React gesture recognizers",
   "main": "index.js",
   "scripts": {
-    "prepublish": "node_modules/.bin/babel --stage 0 --optionals runtime src/ --out-dir lib/"
+    "prepublish": "node_modules/.bin/babel --stage 0 --optional runtime src/ --out-dir lib/"
   },
   "repository": {
     "type": "git",
