@@ -2,11 +2,22 @@
 
 import React from 'react';
 
-const __handleSwipeGesture__ = Symbol('handleSwipeGesture');
-const __handleTapGesture__ = Symbol('handleTapGesture');
-const __emitEvent__ = Symbol('emitEvent');
-
 class Gestures extends React.Component {
+
+  static propTypes = {
+    onSwipeUp: React.PropTypes.func,
+    onSwipeDown: React.PropTypes.func,
+    onSwipeLeft: React.PropTypes.func,
+    onSwipeRight: React.PropTypes.func,
+    flickThreshold: React.PropTypes.number,
+    swipeThreshold: React.PropTypes.number,
+  };
+
+  static defaultProps = {
+    flickThreshold: 0.6,
+    swipeThreshold: 10,
+  };
+
   constructor(props) {
     super(props);
 
@@ -18,17 +29,17 @@ class Gestures extends React.Component {
     };
   }
 
-  resetState() {
+  _resetState() {
     this.setState({x: null, y: null, swiping: false, start: 0 });
   }
 
-  [__emitEvent__](name, e) {
+  _emitEvent(name, e) {
     if (this.props[name]) {
       this.props[name](e);
     }
   }
 
-  getGestureDetails(e) {
+  _getGestureDetails(e) {
     let { clientX, clientY } = e.changedTouches[0];
     let deltaX = this.state.x - clientX;
     let deltaY = this.state.y - clientY;
@@ -41,8 +52,8 @@ class Gestures extends React.Component {
     return e;
   }
 
-  handleTouchStart(e) {
-    this[__emitEvent__]('onTouchStart', e);
+  _handleTouchStart = (e) => {
+    this._emitEvent('onTouchStart', e);
 
     this.setState({
       start: Date.now(),
@@ -52,41 +63,41 @@ class Gestures extends React.Component {
     });
   }
 
-  handleTouchMove(e) {
+  _handleTouchMove = (e) => {
     let ge = this.getGestureDetails(e);
-    this[__emitEvent__]('onTouchMove', ge);
+    this._emitEvent('onTouchMove', ge);
 
     if (ge.gesture.absX > this.props.swipeThreshold && ge.gesture.absY > this.props.swipeThreshold) {
-      this[__handleSwipeGesture__](ge);
+      this._handleSwipeGesture(ge);
       return;
     }
   }
 
-  handleTouchCancel(e) {
-    this[__emitEvent__]('onTouchCancel', e);
-    this.resetState();
+  _handleTouchCancel = (e) => {
+    this._emitEvent('onTouchCancel', e);
+    this._resetState();
   }
 
-  handleTouchEnd(e) {
+  _handleTouchEnd = (e) => {
     let ge = this.getGestureDetails(e);
-    this[__emitEvent__]('onTouchEnd', ge);
+    this._emitEvent('onTouchEnd', ge);
 
     if (this.state.swiping) {
-      this[__handleSwipeGesture__](ge);
+      this._handleSwipeGesture(ge);
       return this.resetState();
     }
     if (ge.gesture.duration > 0 ) {
-      this[__handleTapGesture__](ge);
+      this._handleTapGesture(ge);
     }
-    this.resetState();
+    this._resetState();
   }
 
-  [__handleTapGesture__](ge) {
+  _handleTapGesture(ge) {
     ge.type = 'tap';
-    this[__emitEvent__]('onTap', ge);
+    this._emitEvent('onTap', ge);
   }
 
-  [__handleSwipeGesture__](ge) {
+  _handleSwipeGesture(ge) {
     let { deltaX, absX, deltaY, absY } = ge.gesture;
     let direction = (absX > absY)
       ? deltaX < 0 ? 'Right' : 'Left'
@@ -96,33 +107,19 @@ class Gestures extends React.Component {
 
       ge.gesture.isFlick = ge.gesture.velocity > this.props.flickThreshold;
       ge.type = `swipe${direction.toLowerCase()}`;
-      this[__emitEvent__](`onSwipe${direction}`, ge);
+      this._emitEvent(`onSwipe${direction}`, ge);
       ge.preventDefault();
   }
 
   render() {
     return React.cloneElement(React.Children.only(this.props.children), {
-      onTouchStart: this.handleTouchStart.bind(this),
-      onTouchMove: this.handleTouchMove.bind(this),
-      onTouchCancel: this.handleTouchCancel.bind(this),
-      onTouchEnd: this.handleTouchEnd.bind(this),
+      onTouchStart: this._handleTouchStart,
+      onTouchMove: this._handleTouchMove,
+      onTouchCancel: this._handleTouchCancel,
+      onTouchEnd: this._handleTouchEnd,
     });
   }
 }
-
-Gestures.propTypes = {
-  onSwipeUp: React.PropTypes.func,
-  onSwipeDown: React.PropTypes.func,
-  onSwipeLeft: React.PropTypes.func,
-  onSwipeRight: React.PropTypes.func,
-  flickThreshold: React.PropTypes.number,
-  swipeThreshold: React.PropTypes.number,
-};
-
-Gestures.defaultProps = {
-  flickThreshold: 0.6,
-  swipeThreshold: 10,
-};
 
 export default Gestures;
 
