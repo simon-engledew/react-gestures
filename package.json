@@ -1,6 +1,6 @@
 {
   "name": "react-gestures",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "React gesture recognizers",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,11 @@
     "url": "https://github.com/bh5-js/react-gestures/issues"
   },
   "homepage": "https://github.com/bh5-js/react-gestures",
-    "dependencies": {
+  "dependencies": {
     "babel-runtime": "^5.4.3"
+  },
+  "peerDependencies": {
+    "react": "^0.13.3"
   },
   "devDependencies": {
     "babel": "^5.4.3",
