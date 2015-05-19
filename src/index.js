@@ -1,3 +1,4 @@
+'use strict';
 
 import React from 'react';
 
@@ -13,7 +14,7 @@ class Gestures extends React.Component {
       x: null,
       y: null,
       swiping: false,
-      start: 0
+      start: 0,
     };
   }
 
@@ -47,7 +48,7 @@ class Gestures extends React.Component {
       start: Date.now(),
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
-      swiping: false
+      swiping: false,
     });
   }
 
@@ -104,7 +105,7 @@ class Gestures extends React.Component {
       onTouchStart: this.handleTouchStart.bind(this),
       onTouchMove: this.handleTouchMove.bind(this),
       onTouchCancel: this.handleTouchCancel.bind(this),
-      onTouchEnd: this.handleTouchEnd.bind(this)
+      onTouchEnd: this.handleTouchEnd.bind(this),
     });
   }
 }
@@ -115,12 +116,12 @@ Gestures.propTypes = {
   onSwipeLeft: React.PropTypes.func,
   onSwipeRight: React.PropTypes.func,
   flickThreshold: React.PropTypes.number,
-  swipeThreshold: React.PropTypes.number
+  swipeThreshold: React.PropTypes.number,
 };
 
 Gestures.defaultProps = {
   flickThreshold: 0.6,
-  swipeThreshold: 10
+  swipeThreshold: 10,
 };
 
 export default Gestures;

@@ -1,5 +1,6 @@
-var webpack = require('webpack')
-  , path = require('path');
+'use strict';
+
+let path = require('path');
 
 // Simple dev / production switch
 function _env(dev, production) {
@@ -10,24 +11,24 @@ function _path(p) {
   return path.join(__dirname, p);
 }
 
-var compiler = module.exports = {
+module.exports = {
   devtool: _env('eval', false),
   entry: _path('src/index.js'),
   output: {
     path: _path('lib'),
     filename: 'index.js',
     library: 'react-gestures',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   module: {
     loaders: [
       { test: /\.(js|jsx)$/, loader: 'babel?stage=0&optional=runtime' },
-    ]
+    ],
   },
   externals: {
-    react: 'React'
+    react: 'React',
   },
   resolve: {
-    extensions: ['', '.react.js', '.js', '.jsx']
-  }
+    extensions: ['', '.react.js', '.js', '.jsx'],
+  },
 };
