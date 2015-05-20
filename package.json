@@ -1,6 +1,6 @@
 {
   "name": "react-gestures",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "React gesture recognizers",
   "main": "index.js",
   "scripts": {
