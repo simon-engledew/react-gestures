@@ -21,7 +21,7 @@
     "babel-runtime": "^5.4.3"
   },
   "peerDependencies": {
-    "react": "^0.14.6"
+    "react": "^15.0.1"
   },
   "devDependencies": {
     "babel": "^5.4.3",
